@@ -17,33 +17,36 @@ var connection=mysql.createConnection({
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set('view engine','ejs');
-app.get('/sample',function (req,res) {
-  res.render('sample',{qs:req.query});
+app.get('/',function (req,res) {
+  res.render('sample');
 });
-app.post('/sample', urlencodedParser, function (req, res) {
-  //console.log(req.body);
+app.post('/', urlencodedParser, function (req, res) {
   var username=req.body.username;
   var passkey=req.body.pass;
-  //var random=rand(160, 36);
   console.log(username);
   console.log("pass="+passkey);
-  var sql = "SELECT username,salt,password FROM login WHERE username = "+"'"+username+"'";
+  var sql = "SELECT * FROM login WHERE username = "+"'"+username+"'";
   connection.query(sql, function (err, results,fields) {
     if (err)
     throw err;
     console.log(results);
-    var salt=results[0].salt;
-    console.log(salt);
-  //res.render('2nd_page',{qs:req.query});
+    var salt="";
+    var password="";
+    try {
+      salt=results[0].salt;
+     console.log(salt);
+     password=results[0].password;
+   }
+    catch (err) {
+  // Handle the error here.
+  console.log("no match");
+  }
   var final=crypto.createHash('md5').update(passkey+salt).digest("hex");
   console.log(final);
-  if(final===results[0].password)
-  res.send("welcome to westworld");
-  //console.log("my name is =" +username);
-  //console.log("password="+final);
-  //console.log("rand="+random);
-  //console.log("Connected!");
-
-  });
+  if(final===password)
+  res.render("2nd_page");
+  res.render("404");
 });
+});
+console.log('port 4000');
 app.listen(4000);
