@@ -1,0 +1,36 @@
+// query on terminal
+var express =require ('express');
+var mysql =require('mysql');
+var app=express();
+var connection=mysql.createConnection({
+  host  :'localhost',
+  user  :'root',
+  password  :'password',
+  database  :'information'
+});
+connection.connect(function(error){
+  if(!!error){
+    console.log('error');
+  }
+  else {
+    console.log('connected');
+  }
+});
+app.get('/',function (req,res) {
+  connection.query("SELECT * FROM login",function(error,results,fields){
+    if(!!error){
+      console.log('error in query');
+    }
+    else {
+      //parse
+      console.log('sucessful query\n');
+      console.log(results.username);
+    }
+  });
+})
+app.listen(1337);
+
+/// sample 2
+
+
+
