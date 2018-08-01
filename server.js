@@ -17,10 +17,11 @@ var connection=mysql.createConnection({
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set('view engine','ejs');
-app.get('/sample',function (req,res) {
-  res.render('sample',{qs:req.query});
+app.get('/',function (req,res) {
+  res.render('sample');
 });
-app.post('/sample', urlencodedParser, function (req, res) {
+app.use(express.static('logincssfiles'));
+app.post('/', urlencodedParser, function (req, res) {
   //console.log(req.body);
   var username=req.body.username;
   var passkey=req.body.pass;

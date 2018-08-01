@@ -12,11 +12,3 @@ $(document).ready(function () {
         $('.logo').attr('src','logo.jpeg');
     }
 });
-
-$('.login').click(function(){
-  $.post('/', $("#formid").serialize(), function (data) {
- 	console.log(data) //data is the response from the backend
-  });
-  event.preventDefault();
-});
-});
