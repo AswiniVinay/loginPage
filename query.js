@@ -13,7 +13,7 @@ var connection=mysql.createConnection({
   database  :'information'
 });
 
-
+app.use(express.static('logincssfiles'));
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.set('view engine','ejs');
